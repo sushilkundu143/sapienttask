@@ -1,0 +1,55 @@
+.listitem {
+    list-style: none !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+}
+.listitem li {
+    border-bottom: 1px solid #e2e2e2;
+}
+.bg-gray{
+    background-color: gray;
+}
+.caption {
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    background-color: rgba(128, 128, 128, 0.5);
+    width: 100%;
+}
+.mb-0 {
+    margin-bottom: 0 !important; 
+}
+.pt-1 {
+    padding-top: 1rem;
+}
+small {
+    font-size: 0.75rem;
+}
+.items {
+    padding-left: 10px;
+}
+.ab-bt {
+    position: absolute;
+    right: 0;
+}
+.flexitem {
+    justify-content: flex-end;
+    display: flex
+}
+.tag {
+    margin: 5px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+  }
+  .flex-center{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  [list]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none
+  }

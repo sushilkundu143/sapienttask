@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sapient Task</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <!-- <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script> -->
+</head>
+
+<body ng-app="angularapp" ng-clock>
+    <div class="container" ng-controller="homeCtrl">
+        <section class="pt-1">
+            <div class="columns">
+                <div class="column">
+                    <aside class="menu">
+                        <form name="filteritem">
+                        <h5 class="title is-5">Filters:</h5>
+                        <p class="menu-label">
+                            Species
+                        </p>
+                        <div class="items">
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="human" ng-model="filters[0].value">
+                                    Human
+                                </label>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="alien" ng-model="filters[1].value">
+                                    Alien
+                                </label>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="other" ng-model="filters[2].value">
+                                    Other Species
+                                </label>
+                            </div>
+                        </div>
+                        <p class="menu-label">
+                            Gender
+                        </p>
+                        <div class="items">
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="filters[3].value">
+                                    Male
+                                </label>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="filters[4].value">
+                                    Female
+                                </label>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="filters[5].value">
+                                    Unknown
+                                </label>
+                            </div>
+                        </div>
+                        <p class="menu-label">
+                            Origin
+                        </p>
+                        <div class="items">
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="filters[6].value">
+                                    Unknown
+                                </label>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="filters[7].value">
+                                    Earth
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    </aside>
+                </div>
+                <div class="column is-four-fifths">
+                    <div class="columns is-multiline">
+                        <div class="column is-full" ng-if="tags.length>0" ng-clock>
+                            <h5 class="title is-5">Search Filters:</h5>
+                            <div class="filtereditems">
+                                <span class="tag is-danger" ng-repeat="tag in tags track by $index">
+                                    {{tag.name}}
+                                    <button class="delete" ng-click="deletefilter(tag.name)"></button>
+                                  </span>
+                            </div>
+                        </div>
+                        <div class="column is-full">
+                            <div class="columns">
+                                <div class="column is-three-fifths">
+                                    <div class="field">
+                                        <label class="label">Search by Name</label>
+                                        <div class="control has-icons-left has-icons-right">
+                                            <input class="input" type="text" list="items" ng-model="searchname" placeholder="Search Name">
+                                            <datalist id="items">
+                                                <option ng-repeat="item in items track by $index" value="{{item.name}}">{{item.name}}</option>
+                                            </datalist>
+                                            <span class="icon is-small is-left">
+                                              <i class="fas fa-search"></i>
+                                            </span>
+                                          </div>
+                                        <!-- <div class="control">
+                                            <input class="input" type="text" ng-model="searchname" placeholder="Search Name">
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="column flexitem">
+                                    <div class="field" style="align-self: flex-end;">
+                                        <div class="control has-text-right mt-1">
+                                            <div class="select">
+                                                <select ng-model="selectedItem" ng-change="update()">
+                                                    <option value="" selected disabled>Sort By ID</option>
+                                                    <option value="ascending">Ascending</option>
+                                                    <option value="descending">Descending</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="columns is-multiline" ng-clock>
+                        <div class="column flex-center" ng-if="items.length<=0 || filteredList.length<=0" ng-clock>
+                            <div class="tile is-4 is-vertical is-parent">
+                                <!-- Add content or other tiles -->
+                                <div class="tile is-child">
+                                    <figure class="image">
+                                        <img src="img/error-no-search-results_e83b58.png">
+                                    </figure>
+                                </div>
+                                <div class="tile is-child">
+                                    <h6 class="title is-6 has-text-centered">Sorry, no results found!</h6>
+                                    <p class="has-text-centered">Please check the spelling or try searching for something else</p>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="column is-one-quarter" ng-if="items.length>0" ng-repeat="item in filteredList = (items | filter: {name: searchname})"  ng-clock>
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure class="image is-4by3">
+                                        <img ng-src="{{item.image}}" alt="Placeholder image">
+                                    </figure>
+                                    <div class="caption">
+                                        <h4 class="title is-4 mb-0 has-text-white">{{item.name}}</h4>
+                                        <p class="has-text-white">id: {{item.id}} Created
+                                            {{ item.created | date : "dd.MM.y" }}</p>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="content">
+                                        <ul class="listitem">
+                                            <li>
+                                                <div class="columns">
+                                                    <div class="column is-one-third">
+                                                        <small class="is-uppercase">status</small>
+                                                    </div>
+                                                    <div class="column has-text-right">
+                                                        <small>{{item.status}}</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="columns">
+                                                    <div class="column is-one-third">
+                                                        <small class="is-uppercase">species</small>
+                                                    </div>
+                                                    <div class="column has-text-right">
+                                                        <small>{{item.species}}</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="columns">
+                                                    <div class="column is-one-third">
+                                                        <small class="is-uppercase">gender</small>
+                                                    </div>
+                                                    <div class="column has-text-right">
+                                                        <small>{{item.gender}}</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="columns">
+                                                    <div class="column is-one-third">
+                                                        <small class="is-uppercase">origin</small>
+                                                    </div>
+                                                    <div class="column has-text-right">
+                                                        <small>{{item.origin.name}}</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="columns">
+                                                    <div class="column is-one-third">
+                                                        <small class="is-uppercase">last location</small>
+                                                    </div>
+                                                    <div class="column has-text-right">
+                                                        <small>{{item.location.name}}</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js"></script> -->
+    <script src="js/angular.controller.js"></script>
+</body>
+
+</html>

@@ -14,7 +14,7 @@ angularapp.controller('homeCtrl', function ($scope, $http, $filter) {
         {category: 'gender', name: 'Male', value: false},
         {category: 'gender', name: 'Female', value: false},
         {category: 'gender', name: 'unknown', value: false},
-        {category: 'origin', name: 'Unknown', value: false},
+        {category: 'origin', name: 'unknown', value: false},
         {category: 'origin', name: 'Earth', value: false}
     ];
     $scope.$watch('filters', (newvalue, oldvalue) => {
@@ -44,6 +44,7 @@ angularapp.controller('homeCtrl', function ($scope, $http, $filter) {
                                 if(key != 'origin' && x[key].includes(item)){
                                     return x;
                                 } else if(key == 'origin') {
+                                    console.log('origin:', x[key].name, item);
                                     if(x[key].name.includes(item)){
                                         return x;
                                     }
